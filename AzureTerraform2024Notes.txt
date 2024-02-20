@@ -1,0 +1,153 @@
+Terraform
+---------
+Hospital Management System 
+
+Dev -> QA -> Staging -> Production -> Disaster Recovery 
+
+An administrator will manually create the required infrastructure to run the application 
+
+Cons:- 
+------
+-Time Consuming 
+-Inconsistency 
+-Scalibity....
+
+Infrastructure as Code 
+----------------------
+Infrastructure as Code (IaC) tools allows to manage infrastructure with configuration files rather than through a GUI.
+IaC allows you to build ,change and manage your infrastructure in a safe, consistent and repetable way by defining resource configurations that you can version, reuse and share 
+
+AWS - Cloud Formation (JSON or YAML)
+Azure -  ARM Templates (JSON)
+GCP - Deployment Manager (YAML)
+
+Problems with the native IaC tools 
+----------------------------------
+-Tools are native to the Cloud Provider, the configuration cannot be used with the other cloud 
+-It does not offers state management 
+
+Terraform 
+---------
+Terraform is IaC tool developed by HashiCorp
+It lets you define resource and infrastructure in human readable, declarative configuration file and 'manage your infrastructure lifecycle' 
+
+It provides following advantages over the manual process of infrastructure management 
+
+	-Terraform can manage infrastructure on multiple cloud platforms(It is cloud agnostic)
+	
+	-The human-readable configuration langauge help you write the infrastructure code quickly 
+		HashiCorp Configuration Language (HCL) - .tf file 
+		JSON - .tf.json files
+		
+	-Terraform's state management allows you to track resource changes throughtout your deployment 
+	
+	-You can commit your configuration to version control system to safely collabrate on infrastructure
+	
+HashiCorp Configuration Language (HCL)
+
+Block Syntax 
+
+block_type "label" "name_label"{
+
+	key1=value1,
+	key2=value2,
+	
+	nested_block{
+		key=value 
+	}
+}
+
+resource "azurerm_resource_group" "myresourcegroup"{
+
+	name="mydemo-rg"
+	location="eastus"
+}
+
+resource "azurerm_storage_account" "mystorage"{
+	name="terraformstorage2023"
+	resource-group="name of resource-group"
+	tier="Standard"
+}
+
+Terraform CLI - Open Source Tools which we can use on our system to build the infrastructure in the cloud 
+
+Terraform Cloud - It cloud based tool to build infrastructure in cloud 
+
+SW Requirement 
+--------------
+Visual Studio Code + Terraform Extension 
+Azure CLI 
+
+Terraform CLI - we can download directly from the Terrafrom site 
+
+https://developer.hashicorp.com/terraform/install
+
+Download the terraform binary from the above link and extract it into a folder and set the folder path in system path variable 
+
+set path="C:\Terraform"
+
+Extension to be installed on VS Code 
+------------------------------------
+HashiCorp Terraform 
+Azure Terraform 
+
+Azure CLI :- CLI tools to manage resources in Azure Cloud , We will use for authentication purpose 
+
+Authentication
+--------------
+Azure CLI - az login 
+Managed Service Identity 
+Service Principle with Client Secret 
+Service Principle with Client Certificates
+
+Demo 1- Write a Terraform Configuration file to create a reource group in the Azure Cloud 
+
+Cloud Provider 
+	Azure Provider 
+		AzureRM
+		AzureStack
+		Azure Active Directory 
+		
+	https://registry.terraform.io/
+	
+Terraform Workflow 
+------------------
+init-->validate-->plan-->apply-->destroy
+
+terraform init 
+--------------
+It is used to initialize a working directory containing terraform configuration files 
+It also download's the required provider binary in the working directory 
+
+terraform validate
+------------------
+It validates the terraform configuration file in the respective directory so that they syntantically valid and internally consistent
+
+terraform plan 
+--------------
+Create a execution plan 
+It performs a refresh and determine what actions are necessary to achieve the desired stated specified in the configuration file 
+
+	terraform plan - this display execution plan on the terminal 
+	
+	terraform plan -out "plan1.tfplan" - this create an execution plan and store the same in the specified file 
+	
+terraform apply 
+---------------
+It is used to apply the changes required to reach the desired state of the configuration 
+By default apply scans the current directory for the configuration and applies changes appropriately 
+
+	terraform apply --> yes 
+	
+	terraform apply --auto-approve 
+	
+	terraform apply "plan1.tfplan" --auto-approve
+	
+terraform destroy 
+-----------------
+It is used to destroy the terraform managed infrastructure
+
+	terraform destroy --> yes
+	
+	terraform destroy --auto-approve
+	
