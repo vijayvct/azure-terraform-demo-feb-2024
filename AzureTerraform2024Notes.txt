@@ -151,3 +151,114 @@ It is used to destroy the terraform managed infrastructure
 	
 	terraform destroy --auto-approve
 	
+Variables and Data Types 
+------------------------
+
+Variables in Terraform are a great way to define centrally controlled reusable values.
+The information in Terraform variable is saved independently from the deployment plans, which makes the values easy to read and edit from a single file 
+
+Types of Variables 
+------------------
+-Input Variables
+-Output Variables
+-Local Variables 
+
+Terraform Data Types 
+--------------------
+Primitives 
+	String 
+	Numbers
+	Boolean 
+
+Collections
+	List 
+	Map
+	
+List 
+----
+[1,2,3,4] - valid list of numbers
+["East US",West US","Central US"] - valid list of string 
+
+[1,"East US",True] - Invalid List
+
+variable "users"{
+	type=list 
+	default =["root","user1","user2"]
+}
+
+username = var.users[0]
+
+Map
+---
+{
+	"server1"= "Windows Server 2012"
+	"server2"= "Windows Server 2022"
+	"server3"= "Ubuntu Server 22.04"
+}
+
+variable "servers"{
+	type=map
+	default={
+	"server1"= "Windows Server 2012"
+	"server2"= "Windows Server 2022"
+	"server3"= "Ubuntu Server 22.04"
+	}
+}
+
+var.servers["server1"]  or var.servers.server1
+
+Input Variables
+---------------
+It serves as parameter for Terraform module, so user can customize behaviour without edition the source config files 
+
+The input variable can be create in the main.tf (file containing the actual config) or we can manage the variable in sperate file (variable.tf)
+
+variable "name_label" {
+	type = value #data type of variable 
+	description ="value" #describes the variable 
+	default = value #contains the value to be refered by the variable 
+	sensitive = true | false
+}
+
+eg:- 
+
+variable "storage_resource_group"{
+	type=string 
+	description="resource group"
+	default = "terraform-training-rg"
+}
+
+var.storage_resource_group
+
+Output Variables
+----------------
+It makes information about your infrastructure available on the command line and can expose information from othe terraform configuration to use 
+
+output "name_label"{
+	value = output_value
+	description = "Description of output"
+	sensitive =true | false 
+}
+
+output "storage_id"{
+	value =  azurerm_storage_account.demostorage.id
+	description ="Storage Account ID"
+}
+
+Local Values/Variables
+----------------------
+It provides a convinient way for assigning a short name to an expression
+
+A local value assigns a name to an expression so you can use the name multiple times with a module or config instead of repeating the expression
+
+locals {
+	prefix = "ct"
+	
+	common_tags = {
+		env="prod",
+		version="2.0",
+		company="ct"		
+	}
+}
+
+local.<name_label>
