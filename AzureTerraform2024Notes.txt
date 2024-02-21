@@ -262,3 +262,72 @@ locals {
 }
 
 local.<name_label>
+
+.tfvars files - help us to provide values to variable that we are using in the configuration files 
+
+By default, we can use the terraform.tfvars files to provide values for all the variables that we are using in the configuration files 
+
+Import 
+------
+Terraform can import existing infrastructure resource.
+This functionality lets you bring existing resource under Terraform management
+
+Scenarios 
+---------
+You are working for ABC Corp , where you have build certain infrastructure on the Azure Cloud (VM, Storage Account, Resource Group....)
+
+Now you team has started using Terraform to build infrastructure on the Azure Cloud , For new infrastructure they are able to manage the state and accordingly the updated the infrastructure 
+
+But for the old infrastructure that was created manually using the Azure Portal, team is not able to manage it via the Terraform configuration
+
+To solve the above issue we can make use of terraform import cli command which imports the state of infrastructure into tfstate files but the command does not generates the configuration for the same 
+
+syntax
+
+terraform import <resource> <id>
+
+terraform import azurerm_storage_account.storageAcc1 /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myresourcegroup/providers/Microsoft.Storage/storageAccounts/myaccount
+
+Use the following to command to import the state of the resource-group and the storage to your terraform configuration
+
+Resource-Group 
+
+terraform import azurerm_resource_group.myrg /subscriptions/a1dbe77b-da96-4e01-875c-f7b05a79eb93/resourceGroups/TerraformImportDemo-RG
+
+Storage-Account 
+
+terraform import azurerm_storage_account.mystorage /subscriptions/a1dbe77b-da96-4e01-875c-f7b05a79eb93/resourceGroups/TerraformImportDemo-RG/providers/Microsoft.Storage/storageAccounts/terraformdemo202455
+
+Terraform State Command
+-----------------------
+The terraform state command is used for advanced state management
+
+
+Remote State Management 
+-----------------------
+Terraform uses state whihch stores the information about your managed infrastructure and configuration 
+This state is used by Terraform to map real world resources to your configuration, keeps track of Metadat and to improve performance of large infrastructure
+
+This is state is store by default in a local file name "terraform.tfstate"
+
+When you are working in a team, the state file be stored in a remote location which can one of the following 
+
+	-Terraform Cloud 
+	-Amazon S3
+	-Azure Blob Storage 
+	-Google Cloud Storage
+	-Alibaba Cloud 
+	
+Terraform Graph Command
+-----------------------
+The terraform graph command produces description of relationship between object in terraform configuration using DOT language
+
+By default the result is a simple graph which describes only the dependency ordering of the resources in the configuration
+
+terraform graph 
+
+terraform graph -type=plan | dot -Tpng > graph.png
+
+Provisioner 
+Module
+Terraform Cloud 

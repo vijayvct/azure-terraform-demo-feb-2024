@@ -1,45 +1,34 @@
-terraform {
-  required_providers {
-    azurerm={
-        source = "hashicorp/azurerm"
-        version = "3.9.0"
-    }
-  }
+resource "random_id" "serever_id" {
+  byte_length = 2
 }
 
-provider "azurerm" {
-  features {}
-}
-
-resource "azurerm_resource_group" "example" {
-  name     = var.resourcegroup
+resource "azurerm_resource_group" "myrg" {
+  name = var.resourcegroup
   location = var.region
 }
 
-resource "azurerm_mssql_server" "example" {
-  name                         = var.servername
-  resource_group_name          = azurerm_resource_group.example.name
-  location                     = azurerm_resource_group.example.location
-  version                      = "12.0"
-  administrator_login          = var.username
+resource "azurerm_sql_server" "my-db-server" {
+  name ="${var.servername}${random_id.serever_id.dec}"
+  resource_group_name = azurerm_resource_group.myrg.name
+  location = azurerm_resource_group.myrg.location
+  version = "12.0"
+  administrator_login = var.adminname
   administrator_login_password = var.password
 }
 
-resource "azurerm_mssql_database" "example" {
-  name           = var.dbname
-  server_id      = azurerm_mssql_server.example.id
-  collation      = "SQL_Latin1_General_CP1_CI_AS"
-  license_type   = "LicenseIncluded"
-  max_size_gb    = 2
-  read_scale     = true
-  sku_name       = "S0"
+resource "azurerm_sql_database" "my-db" {
+  name = var.dbname
+  resource_group_name = azurerm_resource_group.myrg.name
+  location = azurerm_resource_group.myrg.location
+  server_name = azurerm_sql_server.my-db-server.name
 
-  tags = {
-    foo = "bar"
-  }
+  depends_on = [ azurerm_sql_server.my-db-server ]
+}
 
-  # prevent the possibility of accidental data loss
-  lifecycle {
-    prevent_destroy = true
-  }
+resource "azurerm_sql_firewall_rule" "my-db-server-rule" {
+  name= "my-db-server-firewall-rule"
+  resource_group_name = azurerm_resource_group.myrg.name
+  server_name = azurerm_sql_server.my-db-server.name
+  start_ip_address = "0.0.0.0"
+  end_ip_address = "255.255.255.255"
 }

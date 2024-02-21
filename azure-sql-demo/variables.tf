@@ -1,29 +1,29 @@
-variable "resourcegroup" {
-  type = string
-  default = "my-sqldb-rg"
-}
-
 variable "region" {
   type = string
   default = "East US"
 }
 
+variable "resourcegroup" {
+  type = string
+  default = "my-sql-rg"
+}
+
 variable "servername" {
   type = string
-  default = "vijay-test-server2024547"
+  default = "vijaydbserver"
 }
 
 variable "dbname" {
-  type = string
-  default ="exmaple-db"
+  type=string
+  default = "mytestdb"
 }
 
-variable "username" {
+variable "adminname" {
   type = string
   default = "vijay"
 }
 
 variable "password" {
   type = string
-  default = "Azure@User!234"
+  default = "Password_123"
 }

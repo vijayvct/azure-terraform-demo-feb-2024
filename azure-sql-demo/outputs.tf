@@ -1,8 +1,9 @@
-output "server_username" {
-  value = azurerm_mssql_server.example.administrator_login
+output "serveradminname" {
+  value = var.adminname
+  sensitive = false
 }
 
-output "server_password" {
-  value = azurerm_mssql_server.example.administrator_login_password
+output "serevradminpassword" {
+  value = var.password
   sensitive = true
 }
