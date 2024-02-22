@@ -1,0 +1,1 @@
+{"Modules":[{"Key":"","Source":"","Dir":"."},{"Key":"vnet_example_all_default","Source":"registry.terraform.io/Azure/vnet/azurerm//examples/all_default","Version":"4.1.0","Dir":".terraform/modules/vnet_example_all_default/examples/all_default"},{"Key":"vnet_example_all_default.vnet","Source":"../..","Dir":".terraform/modules/vnet_example_all_default"}]}

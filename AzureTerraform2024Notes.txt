@@ -331,3 +331,46 @@ terraform graph -type=plan | dot -Tpng > graph.png
 Provisioner 
 Module
 Terraform Cloud 
+
+Terraform Provisioner
+---------------------
+Terraform Provisioners are used for executing scripts or shell commands on a local or remote machine as a part of resource creation or deletion 
+
+provisioner "local-exec"{
+	
+}
+
+local-exec :- it help to execute commands on the local system
+
+remote-exec :- it helps to execute commands on a remote system 
+
+Modules 
+-------
+Modules are self-contained package of Terraform Configuration that are managed by a group 
+
+Virtual Machine (Server)
+	-Some Image 
+	-Disk or Storage 
+	-VNet , Subnet, NSGs, IP Address 
+	
+Terraform offer a lot Built-In Module to quick deploy the required infrastructure with the minimal required confiuration 
+
+It also allows you to create your own custom module to simplify deployment of infrastructure for your project 
+
+
+Custom Module 
+
+Root Module 
+	-main.tf
+	-variables.tf 
+	-ouputs.tf
+		
+	ResourceGroup 
+		main.tf
+		variables.tf
+		outputs.tf 
+	
+	StorageAccount
+		main.tf 
+		variables.tf 
+		outputs.tf 
